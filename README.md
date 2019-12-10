@@ -2,10 +2,15 @@
 
 EKS is a fully managed Kubernetes over the AWS cloud.
 
+![hl](high_level.png)
+
 It provides full managed Master Nodes and etcd over 3 different AZs:
 
+![architecture](architecture.png)
 
+The CNI pluggin manages the association of pods/instances/ip addresses. The instance's ENI get secondary IP addresses and they get associated with pods via the CNI pluggin.
 
+![eni](net_architecture.png)
 
 VPC example template for EKS
 
@@ -78,7 +83,7 @@ aws-iam-authenticator -i <cluster_name> token
 
 IAM Authentication on EKS
 
-
+![iam](iam.png)
 
 Edit AWS Auth Config Map:
 
@@ -123,9 +128,13 @@ The added part is mapUsers, now Alice should have permissions for master.
 
 ### ECR
 
+![ecr](ecr.png)
+
 Repo for the sample app:
 
 https://github.com/linuxacademy/eks-deep-dive-2019
+
+![app](app_arch.png)
 
 Is a managed Docker registry service similar to Docker hub.
 
@@ -190,7 +199,9 @@ kubectl delete -f ./apps/web-client/k8s/deployment.yaml
 kubectl delete -f ./apps/web-client/k8s/service.yaml
 ```
 
-Autoscaling a EKS cluster
+Autoscaling an EKS cluster
+
+![infra](cluster_infra.png)
 
 Horizontal Pod Scaler
 
@@ -272,6 +283,9 @@ Also needs a policy to the instance's role:
 
 ```
 kubectl apply -f cluster_autoscaler.yaml
+kubectl logs -f deployment/cluster-autoscaler -n kube-system
+kubectl apply -f nginx.yaml
+kubectl get deployment/nginx-scaleout
 ```
 
 
